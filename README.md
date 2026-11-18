@@ -17,7 +17,7 @@ Mount Google Drive on Linux with rclone. gdmount creates a user systemd service 
 ## Installation
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/PanVena/gdmount/main/gdrive-mount.sh | bash -s -- install
+curl -fsSL https://github.com/PanVena/gdmount/raw/refs/heads/main/gdrive-mount.sh | bash -s -- install
 ```
 
 Or run the script from this repository:

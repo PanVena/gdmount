@@ -5,7 +5,7 @@
 #
 # gdmount: mount Google Drive with rclone | монтування Google Drive через rclone
 # Run locally: ./gdrive-mount.sh install
-# Install remotely: curl -fsSL https://raw.githubusercontent.com/PanVena/gdmount/main/gdrive-mount.sh | bash -s -- install
+# Install remotely: curl -fsSL https://github.com/PanVena/gdmount/raw/refs/heads/main/gdrive-mount.sh | bash -s -- install
 #
 # EN: Installs rclone/fuse3, authorizes Google, mounts ~/GoogleDrive, and adds a systemd service.
 # UA: Встановлює rclone/fuse3, авторизує Google, монтує ~/GoogleDrive і додає службу systemd.

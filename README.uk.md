@@ -17,7 +17,7 @@
 ## Встановлення
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/PanVena/gdmount/main/gdrive-mount.sh | bash -s -- install
+curl -fsSL https://github.com/PanVena/gdmount/raw/refs/heads/main/gdrive-mount.sh | bash -s -- install
 ```
 
 Або запустіть скрипт із репозиторію:
