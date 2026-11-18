@@ -33,7 +33,23 @@ _() {
   if (($#)); then printf -- "$s" "$@"; else printf '%s' "$s"; fi
 }
 
-GDMOUNT_SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+GDMOUNT_SOURCE="${BASH_SOURCE[0]:-}"
+if [[ -n "$GDMOUNT_SOURCE" && -f "$GDMOUNT_SOURCE" ]]; then
+  GDMOUNT_SCRIPT_DIR="$(cd -- "$(dirname -- "$GDMOUNT_SOURCE")" && pwd)"
+  SELF="$(readlink -f "$GDMOUNT_SOURCE")"
+else
+  GDMOUNT_BOOTSTRAP_DIR="$(mktemp -d)"
+  GDMOUNT_SCRIPT_DIR="$GDMOUNT_BOOTSTRAP_DIR"
+  SELF="$GDMOUNT_BOOTSTRAP_DIR/gdrive-mount.sh"
+  if ! command -v curl >/dev/null 2>&1 ||
+    ! curl -fsSL "https://raw.githubusercontent.com/PanVena/gdmount/main/gdrive-mount.sh" -o "$SELF" ||
+    ! curl -fsSL "https://raw.githubusercontent.com/PanVena/gdmount/main/i18n.sh" -o "$GDMOUNT_BOOTSTRAP_DIR/i18n.sh"; then
+    printf 'gdmount: could not download the installer files required for streamed installation.\n' >&2
+    rm -rf -- "$GDMOUNT_BOOTSTRAP_DIR"
+    exit 1
+  fi
+  trap 'rm -rf -- "$GDMOUNT_BOOTSTRAP_DIR"' EXIT
+fi
 for GDMOUNT_I18N in \
   "$GDMOUNT_SCRIPT_DIR/i18n.sh" \
   "$HOME/.local/share/gdmount/i18n.sh"; do
@@ -50,7 +66,6 @@ fi
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-SELF="$(readlink -f "${BASH_SOURCE[0]}")"
 CONF_FILE="$HOME/.config/rclone-gdrive-setup/config"
 # Values saved during install (environment variables and flags take priority)
 # shellcheck disable=SC1090
